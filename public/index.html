@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Conversor de Celsius para Fahrenheit</title>
+  <link rel="stylesheet" href="/estilo.css" />
+</head>
+<body>
+  <main class="card">
+    <h1>Conversor de Celsius para Fahrenheit</h1>
+    <p class="subtitulo">Informe a temperatura em graus Celsius para converter.</p>
+
+    <form id="form-conversao" action="/celsius/fahrenheit/" method="get">
+      <label for="temperatura">Temperatura (°C)</label>
+      <input
+        type="text"
+        id="temperatura"
+        name="temperatura"
+        inputmode="decimal"
+        placeholder="Ex.: 25 ou -5.7"
+        autocomplete="off"
+        required
+      />
+      <button type="submit">Converter</button>
+      <p id="mensagem-erro" class="mensagem-erro" hidden></p>
+    </form>
+  </main>
+
+  <script>
+    const form = document.getElementById("form-conversao");
+    const input = document.getElementById("temperatura");
+    const mensagem = document.getElementById("mensagem-erro");
+
+    form.addEventListener("submit", (evento) => {
+      const valor = input.value.trim().replace(",", ".");
+      const valido = valor !== "" && /^-?\d*\.?\d+$/.test(valor) && !isNaN(Number(valor));
+
+      if (!valido) {
+        evento.preventDefault();
+        mensagem.textContent = "Por favor, informe um valor numérico válido (ex.: 25, -5.7).";
+        mensagem.hidden = false;
+        return;
+      }
+
+      mensagem.hidden = true;
+      form.action = "/celsius/fahrenheit/" + encodeURIComponent(valor);
+    });
+  </script>
+</body>
+</html>
